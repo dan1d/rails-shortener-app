@@ -27,7 +27,7 @@ class Url < ApplicationRecord
   end
 
   def generate_short_url
-    SecureRandom.base64(8).gsub("/","_").gsub(/=+$/,"")
+    SecureRandom.base64(6).gsub("/","_").gsub(/=+$/,"")
   end
 
   def fetch_title
