@@ -1,10 +1,13 @@
+require 'net/http'
+
 class TitleFetcherJob < ApplicationJob
   queue_as :urgent
   discard_on SocketError
   
   def perform(*args)
     url = args.first
-    url.update!(title: fetch_title(url.long_url))
+    title = fetch_title(url.long_url) rescue nil
+    url.update!(title: title)
   end
 
   def fetch_title(url)

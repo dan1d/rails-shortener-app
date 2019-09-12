@@ -1,0 +1,41 @@
+<div class="jumbotron">
+  <h1 class="display-4">Rails Shortener!</h1>
+  <p class="lead">Paste your url and I will shorten it!</p>
+  <hr class="my-4">
+
+  <%= form_for(@url, url: url_index_path, class: "form-inline") do |f| %>
+    <div class="form-group">
+      <%= f.text_field :long_url, placeholder: "Url to be shortened..."  %>
+
+      <% if @url.errors.any? %>
+        <% @url.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      <% end %>
+
+      <%= f.submit "Short it!" %>
+    </div>
+  <% end %>
+
+  <% if @shorted_url %>
+    <p>Url has been shorted to: <%= link_to shorted_redirect_url(@shorted_url), shorted_redirect_url(@shorted_url) %></p>
+  <% end %>
+</div>
+
+<table class="table">
+  <tr>
+    <th scope="col"># View count</th>
+    <th scope="col">title</th>
+    <th scope="col">long url</th>
+    <th scope="col">short</th>
+  </tr>
+
+  <% @most_views.each do |url| %>
+    <tr>
+      <td scope="col"><%= url.views %></td>
+      <td scope="col"><%= link_to url.title, shorted_redirect_path(url.short_url) %></td>
+      <td scope="col"><%= link_to url.long_url, shorted_redirect_path(url.short_url) %></td>
+      <td scope="col"><%= link_to url.short_url, shorted_redirect_path(url.short_url) %></td>
+    </tr>
+  <% end %>
+</table>

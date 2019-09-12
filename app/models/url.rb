@@ -1,10 +1,16 @@
 class Url < ApplicationRecord
   validates :long_url, :short_url, presence: true
   validates :long_url, url: true
-  validates_uniqueness_of :short_url, case_sensitive: true
-  before_save :set_short_url
+  validates_uniqueness_of :short_url, :long_url, case_sensitive: true
 
+  before_validation :set_short_url
   after_create :fetch_title
+
+  scope :most_views, -> { order("views DESC").limit(100) }
+
+  def increment_view_count
+    update_attributes(views: self.views + 1)
+  end
 
   private
 
