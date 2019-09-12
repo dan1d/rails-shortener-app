@@ -13,13 +13,13 @@
 ActiveRecord::Schema.define(version: 2019_09_11_201635) do
 
   create_table "urls", force: :cascade do |t|
-    t.string "slug", null: false
-    t.string "full_url"
+    t.string "short_url", null: false
+    t.string "long_url", null: false
     t.string "title"
     t.integer "views", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_urls_on_slug"
+    t.index ["short_url"], name: "index_urls_on_short_url"
     t.index ["views"], name: "index_urls_on_views"
   end
 
