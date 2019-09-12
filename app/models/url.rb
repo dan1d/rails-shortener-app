@@ -31,6 +31,6 @@ class Url < ApplicationRecord
   end
 
   def fetch_title
-    TitleFetcherJob.perform_now(self)
+    TitleFetcherJob.perform_now(self) unless self.title.present?
   end
 end
