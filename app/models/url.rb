@@ -4,6 +4,8 @@ class Url < ApplicationRecord
   validates_uniqueness_of :short_url, case_sensitive: true
   before_save :set_short_url
 
+  after_create :fetch_title
+
   private
 
   def set_short_url
@@ -20,5 +22,9 @@ class Url < ApplicationRecord
 
   def generate_short_url
     SecureRandom.base64(8).gsub("/","_").gsub(/=+$/,"")
+  end
+
+  def fetch_title
+    TitleFetcherJob.perform_now(self)
   end
 end
